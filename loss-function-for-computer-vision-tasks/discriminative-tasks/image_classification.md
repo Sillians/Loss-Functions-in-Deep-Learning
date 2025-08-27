@@ -76,15 +76,23 @@ Given predictions $`\hat{y}`$ and targets $`y`$:
 
 * **Sum-of-squares (Euclidean/L2 loss):**
 
-$$\mathcal{L}_{\text{L2}}(\hat{y}, y) = \tfrac{1}{2}\sum_i (\hat{y}_i - y_i)^2$$
+$$
+\mathcal{L}_{\text{L2}}(\hat{y}, y) = \tfrac{1}{2}\sum_i (\hat{y}_i - y_i)^2
+$$
 
 * **Mean Squared Error (MSE):**
 
-$$\mathcal{L}_{\text{MSE}}(\hat{y}, y) = \frac{1}{N}\sum_{i=1}^N (\hat{y}_i - y_i)^2$$
+$$
+\mathcal{L}_{\text{MSE}}(\hat{y}, y) = \frac{1}{N}\sum_{i=1}^N (\hat{y}_i - y_i)^2
+$$
 
 ### **Gradients**
 
-$$\frac{\partial \mathcal{L}_{\text{L2}}}{\partial \hat{y}_i} = \hat{y}_i - y_i, \qquad \frac{\partial \mathcal{L}_{\text{MSE}}}{\partial \hat{y}_i} = \frac{2}{N}(\hat{y}_i - y_i)$$
+$$
+\frac{\partial \mathcal{L}_{\text{L2}}}{\partial \hat{y}_i} = \hat{y}_i - y_i, 
+\qquad 
+\frac{\partial \mathcal{L}_{\text{MSE}}}{\partial \hat{y}_i} = \frac{2}{N}(\hat{y}_i - y_i)
+$$
 
 ### **Intuition**
 
@@ -104,19 +112,29 @@ $$\frac{\partial \mathcal{L}_{\text{L2}}}{\partial \hat{y}_i} = \hat{y}_i - y_i,
 
 ### **Definition**
 
-Cross-Entropy measures the difference between a true distribution $p$ and a predicted distribution $q$.
+Cross-Entropy measures the difference between a true distribution $p$ and a predicted distribution $`q`$.
 
-* For a one-hot target $y$ (true class $c$):
+* For a one-hot target $`y`$ (true class $`c`$):
 
-$$\mathcal{L}_{\text{CE}}(y, q) = -\sum_{i=1}^K y_i \log q_i = -\log q_c$$
+
+$$
+\mathcal{L}_{\text{CE}}(y, q) = -\sum_{i=1}^K y_i \log q_i = -\log q_c
+$$
+
 
 Where:
 
-$$q_i = \frac{e^{z_i}}{\sum_j e^{z_j}} \quad \text{(softmax probabilities from logits)}$$
+$$
+q_i = \frac{e^{z_i}}{\sum_j e^{z_j}} \quad \text{(softmax probabilities from logits)}
+$$
+
 
 * **Binary cross-entropy (for $y \in \{0,1\}$):**
 
-$$\mathcal{L}_{\text{BCE}}(y, z) = -\big[y\log \sigma(z) + (1-y)\log(1-\sigma(z))\big]$$
+$$
+\mathcal{L}_{\text{BCE}}(y, z) = -\big[y\log \sigma(z) + (1-y)\log(1-\sigma(z))\big]
+$$
+
 
 where $\sigma(z) = \frac{1}{1+e^{-z}}$.
 
@@ -124,7 +142,9 @@ where $\sigma(z) = \frac{1}{1+e^{-z}}$.
 
 * Multiclass case:
 
-$$\frac{\partial \mathcal{L}_{\text{CE}}}{\partial z_i} = q_i - y_i$$
+$$
+\frac{\partial \mathcal{L}_{\text{CE}}}{\partial z_i} = q_i - y_i
+$$
 
 This simple gradient is one reason **softmax + CE** is so effective.
 
@@ -149,7 +169,9 @@ This simple gradient is one reason **softmax + CE** is so effective.
 
 KL Divergence quantifies how one probability distribution $p$ diverges from another distribution $q$:
 
-$$D_{\mathrm{KL}}(p \| q) = \sum_i p_i \log\frac{p_i}{q_i}$$
+$$
+D_{\mathrm{KL}}(p \| q) = \sum_i p_i \log\frac{p_i}{q_i}
+$$
 
 Where $p$ is the true distribution and $q$ is the predicted distribution.
 
@@ -159,11 +181,15 @@ $$H(p, q) = H(p) + D_{\mathrm{KL}}(p \| q)$$
 
 When $p$ is fixed (targets), minimizing cross-entropy is equivalent to minimizing KL divergence.
 
+
 ### **Gradients**
 
-$$\frac{\partial D_{\mathrm{KL}}(p \| q)}{\partial z_i} = q_i - p_i$$
+$$
+\frac{\partial D_{\mathrm{KL}}(p \| q)}{\partial z_i} = q_i - p_i
+$$
 
 (same as cross-entropy, but $p$ need not be one-hot—it can be a soft distribution).
+
 
 ### **Intuition**
 
