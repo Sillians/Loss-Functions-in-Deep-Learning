@@ -68,5 +68,126 @@ While **Cross-Entropy Loss** remains the dominant choice for both `CNNs` and `Vi
 
 ---
 
+# 1) Euclidean Loss (L2) / Mean Squared Error (MSE)
+
+### **Definition**
+
+Given predictions $`\hat{y}`$ and targets $`y`$:
+
+* **Sum-of-squares (Euclidean/L2 loss):**
+
+$$\mathcal{L}_{\text{L2}}(\hat{y}, y) = \tfrac{1}{2}\sum_i (\hat{y}_i - y_i)^2$$
+
+* **Mean Squared Error (MSE):**
+
+$$\mathcal{L}_{\text{MSE}}(\hat{y}, y) = \frac{1}{N}\sum_{i=1}^N (\hat{y}_i - y_i)^2$$
+
+### **Gradients**
+
+$$\frac{\partial \mathcal{L}_{\text{L2}}}{\partial \hat{y}_i} = \hat{y}_i - y_i, \qquad \frac{\partial \mathcal{L}_{\text{MSE}}}{\partial \hat{y}_i} = \frac{2}{N}(\hat{y}_i - y_i)$$
+
+### **Intuition**
+
+* Measures **straight-line (Euclidean) distance** between predictions and actual values.
+* Errors are squared, so larger deviations are penalized more heavily.
+* Encourages models to fit the **mean of the target distribution**, making it sensitive to outliers.
+
+### **Practical Use Cases**
+
+* **Regression tasks** (predicting continuous values like house prices, stock values).
+* **Autoencoders** for reconstruction tasks, where pixel-wise similarity is important.
+* **Computer vision** tasks involving dense predictions (e.g., depth estimation, super-resolution).
+
+---
+
+# 2) Cross-Entropy Loss
+
+### **Definition**
+
+Cross-Entropy measures the difference between a true distribution $p$ and a predicted distribution $q$.
+
+* For a one-hot target $y$ (true class $c$):
+
+$$\mathcal{L}_{\text{CE}}(y, q) = -\sum_{i=1}^K y_i \log q_i = -\log q_c$$
+
+Where:
+
+$$q_i = \frac{e^{z_i}}{\sum_j e^{z_j}} \quad \text{(softmax probabilities from logits)}$$
+
+* **Binary cross-entropy (for $y \in \{0,1\}$):**
+
+$$\mathcal{L}_{\text{BCE}}(y, z) = -\big[y\log \sigma(z) + (1-y)\log(1-\sigma(z))\big]$$
+
+where $\sigma(z) = \frac{1}{1+e^{-z}}$.
+
+### **Gradients**
+
+* Multiclass case:
+
+$$\frac{\partial \mathcal{L}_{\text{CE}}}{\partial z_i} = q_i - y_i$$
+
+This simple gradient is one reason **softmax + CE** is so effective.
+
+### **Intuition**
+
+* Measures how “surprised” the model is by the correct label.
+* If the model assigns a high probability to the correct class, the loss is small.
+* Strongly penalizes **confident wrong predictions**, which encourages better class separation.
+
+### **Practical Use Cases**
+
+* **Classification tasks** (image classification, text classification, speech recognition).
+* **Multilabel problems** with binary cross-entropy (e.g., tagging multiple objects in one image).
+* **Language models** where predicting the next word requires probability distributions.
+* Used in almost all **deep classification networks** (CNNs, RNNs, Transformers).
+
+---
+
+# 3) Kullback–Leibler (KL) Divergence
+
+### **Definition**
+
+KL Divergence quantifies how one probability distribution $p$ diverges from another distribution $q$:
+
+$$D_{\mathrm{KL}}(p \| q) = \sum_i p_i \log\frac{p_i}{q_i}$$
+
+Where $p$ is the true distribution and $q$ is the predicted distribution.
+
+### **Relation to Cross-Entropy**
+
+$$H(p, q) = H(p) + D_{\mathrm{KL}}(p \| q)$$
+
+When $p$ is fixed (targets), minimizing cross-entropy is equivalent to minimizing KL divergence.
+
+### **Gradients**
+
+$$\frac{\partial D_{\mathrm{KL}}(p \| q)}{\partial z_i} = q_i - p_i$$
+
+(same as cross-entropy, but $p$ need not be one-hot—it can be a soft distribution).
+
+### **Intuition**
+
+* Measures how much information is “lost” when $q$ approximates $p$.
+* If $p$ and $q$ are identical, KL divergence is zero.
+* Sensitive to cases where $q$ assigns low probability to events where $p$ has high probability.
+
+### **Practical Use Cases**
+
+* **Knowledge distillation**: student networks learn from teacher networks using soft labels.
+* **Variational Autoencoders (VAEs)**: regularizes latent space by minimizing KL between approximate posterior and prior.
+* **Reinforcement Learning**: policy optimization algorithms (e.g., PPO) constrain updates via KL divergence.
+* **Language models and generative tasks**: matching distributions of predicted tokens with true distributions.
+
+---
+
+# **Summary Table**
+
+| Loss Function          | Formula                          | Intuition                                                                                     | Practical Use Cases                                 |
+| ---------------------- | -------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------- |
+| **Euclidean (L2/MSE)** | $\tfrac{1}{N}\sum (\hat{y}-y)^2$ | Measures squared distance; penalizes large errors more                                        | Regression, autoencoders, dense predictions         |
+| **Cross-Entropy**      | $-\sum y \log q$                 | Penalizes wrong/confident predictions; measures alignment of predicted and true distributions | Classification, multilabel problems, NLP, CV        |
+| **KL Divergence**      | $\sum p \log \frac{p}{q}$        | Measures how much predicted distribution diverges from true distribution                      | Knowledge distillation, VAEs, RL, generative models |
+
+---
 
 
