@@ -82,17 +82,12 @@ $$
 
 * **Mean Squared Error (MSE):**
 
-$$
-\mathcal{L}_{\text{MSE}}(\hat{y}, y) = \frac{1}{N}\sum_{i=1}^N (\hat{y}_i - y_i)^2
-$$
+$`\mathcal{L}_{\text{MSE}}(\hat{y}, y) = \frac{1}{N}\sum_{i=1}^N (\hat{y}_i - y_i)^2`$
 
 ### **Gradients**
 
-$$
-\frac{\partial \mathcal{L}_{\text{L2}}}{\partial \hat{y}_i} = \hat{y}_i - y_i, 
-\qquad 
-\frac{\partial \mathcal{L}_{\text{MSE}}}{\partial \hat{y}_i} = \frac{2}{N}(\hat{y}_i - y_i)
-$$
+$`\frac{\partial \mathcal{L}_{\text{L2}}}{\partial \hat{y}_i} = \hat{y}_i - y_i,  \qquad  \frac{\partial \mathcal{L}_{\text{MSE}}}{\partial \hat{y}_i} = \frac{2}{N}(\hat{y}_i - y_i)`$
+
 
 ### **Intuition**
 
@@ -117,9 +112,7 @@ Cross-Entropy measures the difference between a true distribution $p$ and a pred
 * For a one-hot target $`y`$ (true class $`c`$):
 
 
-$$
-\mathcal{L}_{\text{CE}}(y, q) = -\sum_{i=1}^K y_i \log q_i = -\log q_c
-$$
+$`\mathcal{L}_{\text{CE}}(y, q) = -\sum_{i=1}^K y_i \log q_i = -\log q_c`$
 
 
 Where:
