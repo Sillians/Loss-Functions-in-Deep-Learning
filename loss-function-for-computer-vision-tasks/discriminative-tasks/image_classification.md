@@ -183,6 +183,7 @@ $$
 
 (same as cross-entropy, but $p$ need not be one-hot—it can be a soft distribution).
 
+![Alt text](../../images/kl-divergence.png)
 
 ### **Intuition**
 
