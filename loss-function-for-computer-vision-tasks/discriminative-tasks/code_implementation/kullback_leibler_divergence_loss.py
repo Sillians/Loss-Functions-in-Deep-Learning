@@ -1,7 +1,5 @@
 import numpy as np
 
-
-
 def softmax(logits, axis=-1):
     z = logits - logits.max(axis=axis, keepdims=True)  # shift for stability
     exp_z = np.exp(z)

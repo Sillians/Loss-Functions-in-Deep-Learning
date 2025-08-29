@@ -158,6 +158,8 @@ This simple gradient is one reason **softmax + CE** is so effective.
 
 # 3) Kullback–Leibler (KL) Divergence
 
+KL divergence is a non-symmetric metric that measures the `relative entropy` or difference in `information` represented by `two distributions`. It can be thought of as measuring the distance between two data distributions showing how different the two distributions are from each other.
+
 ### **Definition**
 
 KL Divergence quantifies how one probability distribution $p$ diverges from another distribution $q$:
@@ -197,6 +199,17 @@ $$
 * **Variational Autoencoders (VAEs)**: regularizes latent space by minimizing KL between approximate posterior and prior.
 * **Reinforcement Learning**: policy optimization algorithms (e.g., PPO) constrain updates via KL divergence.
 * **Language models and generative tasks**: matching distributions of predicted tokens with true distributions.
+
+
+### **How Is KL Divergence Used in Model Monitoring?**
+
+In model monitoring, `KL divergence` is used to monitor production environments, specifically around feature and prediction data. KL Divergence is utilized to ensure that input or output data in production doesn’t drastically change from a baseline. The baseline can be a training production window of data or a training or validation dataset.
+
+`Drift monitoring` can be especially useful for teams that receive delayed ground truth to compare against production model decisions. These teams can rely on changes in prediction and feature distributions as a proxy for performance.
+
+KL divergence is typically applied to each feature independently; it is not designed as a covariant feature measure but rather a metric that shows how each feature has diverged independently from the baseline values.
+
+More: [Understanding KL Divergence](https://medium.com/data-science/understanding-kl-divergence-f3ddc8dff254)
 
 ---
 

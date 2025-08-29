@@ -340,6 +340,15 @@ The **GW Loss** is defined as:
 $`L_{GW} = D_W^2`$
 
 
+**For two Gaussian distributions**
+
+$\mathcal{N}(\mu_p, \Sigma_p)$ (prediction)
+
+$\mathcal{N}(\mu_t, \Sigma_t)$ (ground truth)
+
+the `squared 2-Wasserstein distance` is given by:
+
+$D^2_{GW}(p, t) = \|\mu_p - \mu_t\|^2 + \mathrm{Tr}\left(\Sigma_p + \Sigma_t - 2(\Sigma_t^{1/2}\Sigma_p\Sigma_t^{1/2})^{1/2}\right)$
 
 **2. Intuition**
 
